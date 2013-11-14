@@ -1,0 +1,212 @@
+body {
+	font-family: "proxima-nova-1", "proxima-nova-2", Helvetica, Arial,
+		Verdana;
+}
+
+input:focus,textarea:focus {
+	background-color: white;
+	border: 2px solid #2396DC;
+}
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+	border-spacing: 0px;
+}
+
+table td,table th {
+	border-style: solid;
+	border-width: 1px;
+	padding: 5px;
+	text-align: center;
+}
+
+/* jquery UI fixes */
+.ui-button {
+	margin-left: -1px;
+}
+
+.ui-button-icon-only .ui-button-text {
+	padding: 0.35em;
+}
+
+.ui-autocomplete-input {
+	margin: 0;
+	padding: 0.48em 0 0.47em 0.45em;
+}
+/* -------------------- */
+.code-box {
+	overflow: auto;
+}
+
+/*helper classes*/
+.invisible {
+	display: none;
+}
+
+/* components */
+.index-title {
+	
+}
+
+.fieldset-box {
+	-moz-border-radius: 7px 7px 7px 7px;
+	-webkit-border-radius: 7px 7px 7px 7px;
+	border-radius: 7px 7px 7px 7px;
+	position: relative;
+	margin-bottom: 30px;
+}
+
+.fieldset-title-box {
+	position: absolute;
+	top: -10px;
+	background-color: white;
+	margin-left: 20px;
+}
+
+.fieldset-button { /*	width: 25px !important;
+	height: 25px !important;*/
+	
+}
+
+.fieldset-title {
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.fieldset-content {
+	padding: 20px;
+}
+
+.box-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.clear {
+	clear: both;
+}
+
+#main-box {
+	min-width: 650px;
+	max-width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.form-col-left,.form-col-right {
+	float: left;
+	width: 47%;
+	margin-bottom: 8px;
+}
+
+.form-col-left {
+	padding-right: 5px;
+}
+
+.form-col-left {
+	text-align: right;
+}
+
+.field-required {
+	font-weight: bold !important;
+}
+
+.transition-matrix-combobox {
+	width: 60px !important;
+}
+
+.input-error {
+	border: 1px solid #CD0A0A;
+	background:
+		url("http://localhost:8080/cinvestav.compu.statemachines.web/static-content/resources/libs/jquery/css/start/images/ui-bg_gloss-wave_45_e14f1c_500x100.png")
+		repeat-x scroll 50% top #E14F1C;
+}
+
+.dfa-input-error {
+	border: 1px solid #CD0A0A;
+	background:
+		url("http://localhost:8080/cinvestav.compu.statemachines.web/static-content/resources/libs/jquery/css/start/images/ui-bg_gloss-wave_45_e14f1c_500x100.png")
+		repeat-x scroll 50% top #E14F1C;
+}
+
+.textarea-states {
+	height: 70px;
+	width: 253px;
+}
+
+#build_matrix_button,#build_cyk_productions {
+	margin-top: 10px;
+}
+
+#footer {
+	margin-bottom: 50px;
+}
+
+#final_states_row {
+	margin-bottom: 25px;
+}
+
+#string_test_button {
+	margin-bottom: 25px;
+	margin-top: 15px;
+}
+
+#notvalid_nfa {
+	margin: 0 25px 25px;
+}
+
+#dfa_equivalences_button_box {
+	margin-bottom: 25px;
+}
+
+.dfa-regexp-box {
+	text-align: center;
+}
+
+.final-regexp {
+	overflow: auto;
+	padding: 20px;
+}
+
+.final-regexp textarea {
+	border: 1px solid gray;
+	padding: 5px;
+	width: 95%;
+}
+
+.table-regexp {
+	overflow: auto;
+}
+
+.footer {
+	font-size: medium;
+	color: #A8A8A8;
+	padding: 20px;
+	text-align: center;
+	min-height: 80px;
+}
+
+.min-dfa-transition-matrix {
+	border: 1px solid gray;
+	padding: 20px;
+	margin-top: 20px;
+}
+
+#min_dfa_graph {
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+/* CONTEXT FREE GRAMMAR styles*/
+.border-none {
+	border: none;
+}
+
+.cyk-derivations-content{
+	text-align:left !important;
+}

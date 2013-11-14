@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+
+<title>Minimizaci&oacute;n de DFA</title>
+<meta name="description" content="Finite Deterministic Automata" />
+<meta name="keywords"
+	content="fda, deterministic, automata, finite, demo" />
+
+<link href="resources/img/logo.gif" rel="shortcut icon" />
+
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/jquery/css/start/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/project.css" />
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/google_prettify/themes/sunburst-min.css" />
+
+
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/google_prettify/prettify.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/dracula/js/raphael-min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graffle.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graph.js"></script>
+
+
+<script type="text/javascript" src="resources/js/basicFunctions.js"></script>
+<script type="text/javascript" src="resources/js/drawingFunctions.js"></script>
+<script type="text/javascript" src="resources/js/initLayout2.js"></script>
+<script type="text/javascript" src="resources/js/fa/dfa.js"></script>
+<script type="text/javascript" src="resources/js/fa/nfa.js"></script>
+
+<script type="text/javascript" src="resources/js/fa/dfaHelper.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/combobox.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/multiselect.js"></script>
+	
+<script type="text/javascript"
+	src="resources/js/initDfaMinimizationLayout.js"></script>
+
+
+<script type="text/javascript">
+	cinvestav.compu.constants.FA_TYPE = "dfa";
+</script>
+
+</head>
+<body>
+
+	<div id="main-box">
+		<noscript>
+			<h1 class="text-center index-title">Necesita habilitar
+				Javascript para ejecutar el Demo</h1>
+		</noscript>
+		<h1 class="text-center index-title">Minimizaci&oacute;n de Automata Finito Deterministico</h1>
+		<div id="main_content">
+			<form id="dfa_form" command="command" action="#" method="post">
+
+				<div>
+
+					<div class="fieldset-box ui-widget-content background-erase">
+
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">Parametros de entrada</span> <span
+								id="params_title_button" class="fieldset-button"></span>
+						</div>
+
+						<div class="fieldset-content">
+
+							<div class="form-row">
+								<div class="form-col-left">
+									<label for="alphabetAsString">Detallar alfabeto(separar
+										con comas)*:</label>
+								</div>
+								<div class="form-col-right">
+									<input id="alphabetAsString" name="alphabetAsString"
+										type="text" value="s0,s1,s2" />
+								</div>
+								<div class="clear"></div>
+							</div>
+
+
+
+							<div class="form-row">
+								<div class="form-col-left">
+									<label for="statesAsString">Detallar estados(separar
+										con comas)*:</label>
+								</div>
+								<div class="form-col-right">
+									<input id="statesAsString" name="statesAsString" type="text"
+										value="q0,q1,q2" />
+								</div>
+								<div class="clear"></div>
+							</div>
+
+
+
+							<div id="error_basicparams"
+								class="ui-state-error ui-corner-all form-row text-center invisible form-row">
+								<p></p>
+							</div>
+
+
+
+							<div id="" class="text-center">
+								<input class="text-center" id="build_matrix_button"
+									type="submit" value="Construir Matriz" />
+							</div>
+						</div>
+						<div class="form-row text-center" style="padding-bottom: 10px">*
+							Los campos marcados con asterisco son obligatorios</div>
+					</div>
+
+					<div id="dfa_transition_matrix"
+						class="fieldset-box ui-widget-content background-erase invisible">
+
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">Matriz de
+								transici&oacute;n(DFA)</span> <span id="params_title_button"
+								class="fieldset-button"></span>
+						</div>
+
+						<div class="fieldset-content"></div>
+					</div>
+
+					<div id="dfa_initial_state"
+						class="fieldset-box ui-widget-content background-erase invisible">
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">Estado Inicial</span><span
+								class="fieldset-button"></span>
+						</div>
+						<div class="fieldset-content">
+							<div id="final_states_row" class="form-row">
+								<div class="form-col-left">
+									Estado<span class="field-required">*</span>:
+								</div>
+								<div class="form-col-right"></div>
+								<div class="clear"></div>
+							</div>
+
+							<div id="dfa_error_initial_state"
+								class="ui-state-error ui-corner-all form-row text-center invisible">
+								<p></p>
+							</div>
+						</div>
+					</div>
+
+
+					<div id="dfa_final_states"
+						class="fieldset-box ui-widget-content background-erase invisible">
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">Estados Finales</span><span
+								class="fieldset-button"></span>
+						</div>
+						<div class="fieldset-content">
+							<div id="final_states_row" class="form-row">
+								<div class="form-col-left">
+									Estados<span class="field-required">*</span>:
+								</div>
+								<div class="form-col-right"></div>
+								<div class="clear"></div>
+							</div>
+
+
+							<div id="dfa_error_final_states"
+								class="ui-state-error ui-corner-all form-row text-center invisible dfa-error-final-states">
+								<p></p>
+							</div>
+						</div>
+					</div>
+
+
+					<div id="dfa_test_string"
+						class="fieldset-box ui-widget-content background-erase invisible">
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">Probar Cadena</span><span
+								class="fieldset-button"></span>
+						</div>
+						<div class="fieldset-content">
+							<div class="form-row">
+
+								<div class="form-col-left">
+									<label for="stringToTest">Cadena a Probar<span
+										class="invisble comma-separated-message"><strong>(separar
+												con comas)</strong></span>:
+									</label>
+								</div>
+								<div class="form-col-right">
+									<input id="stringToTest" name="stringToTest"
+										class="string-test-input" type="text" value="" />
+								</div>
+								<div class="clear"></div>
+							</div>
+
+							<div class="form-row text-center">
+								<input id="string_test_button" type="submit"
+									value="Probar cadena" class="text-center" />
+							</div>
+
+							<div
+								class="ui-state-highlight ui-corner-all form-row text-center invisible test-string-valid">
+								<p>
+									La cadena <strong>SI</strong> es aceptada por el automata
+								</p>
+							</div>
+
+							<div
+								class="ui-state-error ui-corner-all form-row text-center invisible test-string-not-valid">
+								<p></p>
+							</div>
+
+						</div>
+					</div>
+
+					<div id="dfa_build_min_dfa"
+						class="fieldset-box ui-widget-content background-erase invisible">
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">DFA minimo</span><span
+								class="fieldset-button"></span>
+						</div>
+						<div class="fieldset-content">
+
+							<div class="form-row text-center">
+								<input id="dfa_min_button" type="submit"
+									value="Construir DFA minimo" class="text-center" />
+							</div>
+
+							<div
+								class="ui-state-error ui-corner-all form-row text-center invisible error-dfa-min">
+								<p></p>
+							</div>
+
+							<div
+								class="form-row min-dfa-transition-matrix ui-corner-all invisible">
+								<h3 class="text-center">Matriz de transici&oacute;n</h3>
+								<div class="min_dfa_matrix"></div>
+								<h3 class="text-center">Diagrama de estados</h3>
+								<div id="min_dfa_graph"></div>
+							</div>
+
+						</div>
+					</div>
+
+
+				</div>
+			</form>
+		</div>
+
+		<div class="form-row footer ui-widget ui-widget-content ui-corner-all">
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-nc-nd/3.0/"> <img
+				alt="Licencia de Creative Commons" style="border-width: 0"
+				src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png"></a><br>
+				Created by <a href="http://50.112.92.25"
+				class="footer-link">Ismael Ariel</a>. Licensed under a <br><a
+					class="footer-link" rel="license"
+					href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative
+						Commons Reconocimiento-NoComercial-SinObraDerivada 3.0 Unported
+						License</a>. 
+		</div>
+	</div>
+
+</body>
+</html>

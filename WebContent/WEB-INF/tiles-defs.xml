@@ -1,0 +1,85 @@
+<!DOCTYPE tiles-definitions PUBLIC
+              "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+              "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+<tiles-definitions>
+
+	<!-- you should never use layout directly, it will throw exceptions due 
+		value="" -->
+	<definition name="layout" path="/WEB-INF/jsp/layout.jsp">
+		<put name="title" value="" />
+		<put name="content" value="" />
+	</definition>
+
+	<!-- some generic components -->
+	<definition name="testString" path="/WEB-INF/jsp/components/testString.jsp" />
+	<definition name="finalStates" path="/WEB-INF/jsp/components/finalStates.jsp" />
+	<definition name="initialStates" path="/WEB-INF/jsp/components/initialState.jsp" />
+
+	<!-- dfa definitions -->
+	<definition name="dfa.layout" extends="layout">
+		<put name="title" value="/WEB-INF/jsp/DFATitle.jsp" />
+		<put name="content" value="dfa.params" />
+	</definition>
+
+	<definition name="nfa.layout" extends="layout">
+		<put name="title" value="/WEB-INF/jsp/NFATitle.jsp" />
+		<put name="content" value="nfa.params" />
+	</definition>
+
+	<definition name="basicParams" path="/WEB-INF/jsp/components/basicParams.jsp">
+		<put name="additionalParams" value="/WEB-INF/jsp/components/empty.jsp" />
+	</definition>
+
+	<definition name="dfa.params" path="/WEB-INF/jsp/forms/params.jsp">
+		<put name="basicParams" value="basicParams" />
+	</definition>
+
+	<definition name="nfa.basicParams" path="/WEB-INF/jsp/components/basicParams.jsp">
+		<put name="additionalParams" value="/WEB-INF/jsp/components/NFAExtraParams.jsp" />
+	</definition>
+
+	<definition name="nfa.params" extends="dfa.params">
+		<put name="basicParams" value="nfa.basicParams" />
+	</definition>
+
+	<definition name="dfa.matrix" path="/WEB-INF/jsp/components/DFAmatrix.jsp" />
+
+	<definition name="nfa.matrix" path="/WEB-INF/jsp/components/NFAmatrix.jsp" />
+
+	<definition name="dfa.paramsAndMatrix" path="/WEB-INF/jsp/forms/paramsAndMatrix.jsp">
+		<put name="actionUrl" type="string" value="dfa/showAll.do" />
+		<put name="basicParams" value="basicParams" />
+		<put name="matrix" value="dfa.matrix" />
+		<put name="initialStates" value="initialStates" />
+		<put name="finalStates" value="finalStates" />
+		<put name="testString" value="testString" />
+	</definition>
+
+	<definition name="nfa.paramsAndMatrix" extends="dfa.paramsAndMatrix">
+		<put name="basicParams" value="nfa.basicParams" />
+		<put name="matrix" value="nfa.matrix" />
+	</definition>
+
+	<definition name="dfa.paramsAndMatrix.layout" extends="dfa.layout">
+		<put name="content" value="dfa.paramsAndMatrix" />
+	</definition>
+
+	<definition name="nfa.paramsAndMatrix.layout" extends="nfa.layout">
+		<put name="content" value="nfa.paramsAndMatrix" />
+	</definition>
+
+
+	<definition name="nfa.include.dfa.layout" extends="nfa.layout">
+		<put name="content" value="nfa.include.dfa" />
+	</definition>
+
+	<definition name="nfa.include.dfa" path="/WEB-INF/jsp/forms/NFAandDFA.jsp">
+		<put name="nfa" value="nfa.paramsAndMatrix" />
+	</definition>
+
+    <definition name="showTransitionMatrixOnly" path="/WEB-INF/jsp/forms/showTransitionMatrixOnly.jsp"/>
+    
+    <definition name="showAllErrors" path="/WEB-INF/jsp/forms/showAllErrors.jsp"/>
+    
+
+</tiles-definitions>

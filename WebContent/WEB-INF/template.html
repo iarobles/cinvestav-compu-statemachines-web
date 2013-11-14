@@ -1,0 +1,286 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+
+<title>DFA Y FDA demos</title>
+<meta name="description" content="Finite Deterministic Automata" />
+<meta name="keywords"
+	content="fda, deterministic, automata, finite, demo" />
+<link href="resources/img/logo.gif" rel="shortcut icon" />
+
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/jquery/css/start/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/project.css" />
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="resources/js/initLayout.js"></script>
+
+
+</head>
+<body>
+	
+
+
+
+
+<h1 class="text-center index-title">Construir NFA y DFA equivalente</h1>
+	<div id="main-box">		
+		
+
+
+
+<form id="command" command="command" action="test.do" method="post">
+	<input id="statesAsString" name="statesAsString" type="hidden" value=""/>
+	<input id="alphabetAsString" name="alphabetAsString" type="hidden" value=""/>
+
+	<input id="alphabet" name="alphabet" type="hidden" value="s0,s1,s2"/>
+	<input id="states" name="states" type="hidden" value="q0,q1,q2"/>
+
+	<div>
+		
+
+
+
+
+<div class="fieldset-box ui-widget-content background-erase">
+
+	<div class="fieldset-title-box">
+		<span class="fieldset-title">Parametros de entrada</span> <span
+			id="params_title_button" class="fieldset-button"></span>
+	</div>
+	
+	<div class="fieldset-content">
+
+		<div class="form-row">
+			<div class="form-col-left">
+				<label for="alphabetLength">Longitud de Alfabeto<span
+						class="field-required">*</span>:</label>
+			</div>
+			<div class="form-col-right">
+				<input id="alphabetLength" name="alphabetLength" type="text" value="3"/>
+			</div>
+			<div class="clear"></div>
+		</div>
+	
+		<div class="form-row">
+			
+		</div>
+	
+		<div class="form-row">
+			<div class="form-col-left">
+				<label for="alphabetAsString">Detallar alfabeto(separar con comas):</label>
+			</div>
+			<div class="form-col-right">
+				<input id="alphabetAsString" name="alphabetAsString" type="text" value=""/>
+			</div>
+			<div class="clear"></div>
+		</div>
+	
+	
+		<div class="form-row">
+			<div class="form-col-left">
+				<label for="totalStates">Total de estados<span
+						class="field-required">*</span>:</label>
+			</div>
+			<div class="form-col-right">
+				<input id="totalStates" name="totalStates" type="text" value="3"/>
+			</div>
+			<div class="clear"></div>
+		</div>
+	
+		<div class="form-row">
+			
+		</div>
+	
+		<div class="form-row">
+			<div class="form-col-left">
+				<label for="statesAsString">Detallar estados(separar con comas)</label>
+			</div>
+			<div class="form-col-right">
+				<input id="statesAsString" name="statesAsString" type="text" value=""/>
+			</div>
+			<div class="clear"></div>
+		</div>
+	
+	
+		
+	
+	
+		<div class="text-center">
+			<input class="text-center" id="build_matrix_button" type="submit"
+				value="Construir Matriz" />
+		</div>
+	</div>
+</div>
+	
+
+		
+
+
+
+
+<div class="fieldset-box ui-widget-content background-erase">
+
+	<div class="fieldset-title-box">
+		<span class="fieldset-title">Matriz de transici&oacute;n(NFA)</span> <span
+			id="params_title_button" class="fieldset-button"></span>
+	</div>
+	
+	<div class="fieldset-content">
+		<table class="transition-matrix-nfa">
+			<thead>
+				<tr>
+					<th>\</th>
+					
+						<th>s0</th>
+					
+						<th>s1</th>
+					
+						<th>s2</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				
+					<tr>
+						<td><strong>q0</strong></td>
+						
+							<td>{<input type="text" name="transitionMatrix[0][0]" value="" />}</td>
+						
+							<td>{<input type="text" name="transitionMatrix[0][1]" value="" />}</td>
+						
+							<td>{<input type="text" name="transitionMatrix[0][2]" value="" />}</td>
+						
+					</tr>
+				
+					<tr>
+						<td><strong>q1</strong></td>
+						
+							<td>{<input type="text" name="transitionMatrix[1][0]" value="" />}</td>
+						
+							<td>{<input type="text" name="transitionMatrix[1][1]" value="" />}</td>
+						
+							<td>{<input type="text" name="transitionMatrix[1][2]" value="" />}</td>
+						
+					</tr>
+				
+					<tr>
+						<td><strong>q2</strong></td>
+						
+							<td>{<input type="text" name="transitionMatrix[2][0]" value="" />}</td>
+						
+							<td>{<input type="text" name="transitionMatrix[2][1]" value="" />}</td>
+						
+							<td>{<input type="text" name="transitionMatrix[2][2]" value="" />}</td>
+						
+					</tr>
+				
+			</tbody>
+		</table>
+	</div>
+</div>
+		
+
+
+
+
+<div class="fieldset-box ui-widget-content background-erase">
+	<div class="fieldset-title-box">
+		<span class="fieldset-title">Estados Finales</span><span
+			class="fieldset-button"></span>
+	</div>
+	<div class="fieldset-content">
+		<div id="final_states_row" class="form-row">
+			<div class="form-col-left">
+				Estados<span class="field-required">*</span>:
+			</div>
+			<div class="form-col-right">
+				
+					
+						
+						
+			q0<input type="checkbox" name="finalStates"
+								value="0" name="q0" />
+						
+					
+
+				
+					
+						
+						
+			q1<input type="checkbox" name="finalStates"
+								value="1" name="q1" />
+						
+					
+
+				
+					
+						
+						
+			q2<input type="checkbox" name="finalStates"
+								value="2" name="q2" />
+						
+					
+
+				
+			</div>
+		</div>
+		<div class="form-row">
+			
+		</div>
+
+	</div>
+</div>
+		
+		
+
+
+
+
+
+<div class="fieldset-box ui-widget-content background-erase">
+	<div class="fieldset-title-box">
+		<span class="fieldset-title">Probar Cadena</span><span
+			class="fieldset-button"></span>
+	</div>
+	<div class="fieldset-content">
+		<div class="form-row">
+
+			<div class="form-col-left">
+				<label for="stringToTest">Cadena a Probar:</label>
+			</div>
+			<div class="form-col-right">
+				<input id="stringToTest" name="stringToTest" type="text" value=""/>
+			</div>
+		</div>
+		<div class="form-row">
+			
+		</div>
+
+		<div class="form-row text-center">
+			<input id="string_test_button" type="submit" value="Probar cadena" class="text-center"/>
+		</div>
+
+		<div class="form-row">
+			
+				
+				
+			
+		</div>
+	</div>
+</div>
+	</div>
+
+</form>
+<div id="footer" class="footer form-row text-center">
+			* Los campos marcados con asterisco son obligatorios
+		</div>
+	</div>
+</body>
+</html>

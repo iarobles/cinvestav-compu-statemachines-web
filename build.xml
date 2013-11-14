@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cinvestav.compu.statemachines.web" basedir="." default="restart">
+
+	<property file="${user.home}/com.diatom.ant.properties" />
+	<property file="${user.home}/${server.ant.configuration}" />
+	<property name="dir.build" value="${basedir}/build" />
+
+	<import file="${dir.workspace}/com.diatom.standards/ant-base-files/base-build.xml" />
+
+	<target name="init">
+		<mkdir dir="${dir.build}/classes" />
+		<mkdir dir="${dir.build}/WebContent" />
+		<mkdir dir="${dir.build}/WebContent/static-content" />
+		<mkdir dir="${dir.build}/lib" />
+		<mkdir dir="${dir.build}/jars/lib" />
+
+		<copy todir="${dir.build}/WebContent/static-content">
+			<fileset dir="WebContent/static-content">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="clean" description="cleaning dir:${dir.build}">
+		<delete dir="${dir.build}" includeemptydirs="true" includes="**/**" />
+		<delete dir="${dir.deploy}/${ant.project.name}" />
+		<delete dir="${dir.deploy}" includes="${ant.project.name}*" />
+	</target>
+
+	<target name="compile" depends="clean, init">
+		<javac srcdir="src" classpathref="classpath" destdir="${dir.build}/classes" excludes="**/test/**" />
+	</target>
+
+	<target name="compress_css" unless="${disable.compress.css}">
+		<echo message="will compress css files in:${dir.build}/WebContent/static-content/resources" />
+		<!-- importante!! dest debe ser igual que el de todos los valores de dir!! -->
+		<!-- force true sobrescribe archivos CUIDADO!! -->
+		<apply executable="java" parallel="false" dest="${dir.build}/WebContent/static-content/resources" force="true">
+			<arg line="-jar" />
+			<arg path="${dir.workspace}/com.diatom.standards/yuicompressor/yuicompressor-2.4.7.jar" />
+			<arg line="--line-break 0" />
+			<arg line="-o" />
+			<targetfile />
+			<srcfile />
+			<fileset dir="${dir.build}/WebContent/static-content/resources" includes="css/*.css, libs/jquery/css/**/*.css" />
+
+			<!--
+			<fileset dir="${dir.build}/web/resources" includes="google_code_prettify/**/*.css"/>
+			<fileset dir="${dir.build}/web/resources" includes="jquery_ui/**/*.css"/>
+			<mapper type="glob" from="*.css" to="*-min.css" />
+			-->
+
+			<mapper type="identity" />
+		</apply>
+
+		<!-- Replace Existing CSS 	-->
+	</target>
+
+	<target name="compress_js" unless="${disable.compress.js}">
+		<echo message="will compress js files" />
+		<!-- importante!! dest debe ser igual que el de todos los valores de dir!! -->
+		<!-- force true sobrescribe archivos CUIDADO!! -->
+		<apply executable="java" parallel="false" dest="${dir.build}/WebContent/static-content/resources" force="true">
+			<arg line="-jar" />
+			<arg path="${dir.workspace}/com.diatom.standards/yuicompressor/yuicompressor-2.4.7.jar" />
+			<arg line="--line-break 0" />
+			<arg line="-o" />
+			<targetfile />
+			<srcfile />
+
+			<fileset dir="${dir.build}/WebContent/static-content/resources" includes="js/*.js, libs/jquery/widgets/*.js" />
+			<mapper type="identity" />
+			<!--
+			<fileset dir="${dir.build}/web/resources" includes="jquery_ui/**/*.js" />
+			<mapper type="glob" from="*.js" to="*-min.js" />
+			-->
+
+		</apply>
+
+	</target>
+
+	<target name="package" depends="compile, compress_css, compress_js">
+		<copy todir="${dir.build}/lib">
+			<fileset refid="library.server" />
+			<fileset refid="library.server" />
+			<fileset refid="library.commons" />
+			<fileset refid="library.spring3.core" />
+			<fileset refid="library.spring3.aop" />
+			<fileset refid="library.spring3.context" />
+			<fileset refid="library.spring3.jdbc" />
+			<fileset refid="library.spring3.web" />
+			<fileset refid="library.aspectj" />
+			<fileset refid="library.apache-commons.dbcp" />
+			<fileset refid="library.apache-commons.logging" />
+			<fileset refid="library.struts.tiles" />
+			<fileset refid="library.guava" />
+			<fileset refid="library.sl4j" />
+			<fileset refid="library.bonecp" />
+			<fileset refid="library.log4j" />
+			<fileset refid="library.hibernate.validator" />
+			<fileset id="library.personal.projects" dir="${dir.workspace}/com.diatom.standards/projects" includes="*.jar" />
+		</copy>
+
+		<jar basedir="${dir.build}/classes" destfile="${dir.build}/jars/lib/${ant.project.name}.commons.jar">
+			<include name="**/entity/**" />
+		</jar>
+		<copy file="${dir.build}/jars/lib/${ant.project.name}.commons.jar" todir="${dir.build}/lib" />
+
+
+		<war destfile="${dir.build}/jars/${ant.project.name}.war" webxml="WebContent/WEB-INF/web.xml">
+			<webinf dir="WebContent/WEB-INF" />
+			<classes dir="${dir.build}/classes">
+				<include name="**" />
+				<exclude name="**/entity/**" />
+			</classes>
+			<lib dir="${dir.build}/lib">
+				<include name="*.jar" />
+				<exclude name="antlr*.jar" />
+				<exclude name="servlet*.jar" />
+				<exclude name="junit*.jar" />
+				<exclude name="log4j-1.2.16.jar" />
+				<exclude name="aspectj*.jar" />
+				<exclude name="*spring*portlet*.jar" />
+			</lib>
+			<zipfileset dir="${dir.build}/WebContent/" includes="**/**" />
+		</war>
+	</target>
+
+	<target name="deploy-static">
+		<echo message="will copy ${dir.build}/WebContent/static-content/resources files to: ${dir.resources}/${ant.project.name}" />
+		<copy todir="${dir.resources}/${ant.project.name}" overwrite="true">
+			<fileset dir="${dir.build}/WebContent/static-content/">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+
+
+	<target name="deploy" depends="package, deploy-static">
+		<copy todir="${dir.deploy}" overwrite="true" file="${dir.build}/jars/${ant.project.name}.war" />
+	</target>
+
+	<target name="restart" depends="stop, deploy, start" description="deploy the project and restart the container">
+	</target>
+
+	<target name="stop" description="stop the server">
+		<echo message="shutting down server" />
+		<exec executable="${server.command.shutdown}">
+			<arg value="-S" />
+		</exec>
+	</target>
+
+	<target name="start" description="star the server">
+		<echo message="start server ${server.command.run}" />
+		<exec executable="${server.command.run}" />
+	</target>
+
+</project>

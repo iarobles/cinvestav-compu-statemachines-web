@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+
+<title>Minimizaci&oacute;n de DFA</title>
+<meta name="description" content="Finite Deterministic Automata" />
+<meta name="keywords"
+	content="fda, deterministic, automata, finite, demo" />
+
+<link href="resources/img/logo.gif" rel="shortcut icon" />
+
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/jquery/css/start/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/project.css" />
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/google_prettify/themes/sunburst-min.css" />
+
+
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/google_prettify/prettify.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/dracula/js/raphael-min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graffle.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graph.js"></script>
+
+
+<script type="text/javascript" src="resources/js/basicFunctions.js"></script>
+<script type="text/javascript" src="resources/js/drawingFunctions.js"></script>
+<script type="text/javascript" src="resources/js/initLayout2.js"></script>
+<script type="text/javascript" src="resources/js/fa/dfa.js"></script>
+<script type="text/javascript" src="resources/js/fa/nfa.js"></script>
+
+<script type="text/javascript" src="resources/js/fa/dfaHelper.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/combobox.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/multiselect.js"></script>
+
+
+<script type="text/javascript" src="resources/js/cfg/CFG.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		//test data...
+		var variables = [ "A", "B", "C", "S" ];
+		var terminals = [ "a", "b" ];
+		var startSymbol = "S";
+
+		var productions = {};
+		productions["S"] = [];
+		productions["S"] = [ "AB", "BC" ];
+		productions["A"] = [ "BA", "a" ];
+		productions["B"] = [ "CC", "b" ];
+		productions["C"] = [ "AB", "a" ];
+
+		var theGrammar = new cinvestav.compu.cfg.CFG(variables, terminals, productions, startSymbol);
+
+		theGrammar.searchProductionsByRule("a");
+		theGrammar.searchProductionsByRule("b");
+
+		//debugger;
+		//var cykResult = theGrammar.executeCYK(["a","b"]);
+		var cykResult = theGrammar.executeCYK(["b"]);
+		cinvestav.compu.drawCYKTable("#resultado", cykResult);
+		
+		var cykTree = cykResult.createCYKTree();
+		console.debug(cykTree);
+		
+		var derivations = cykResult.getDerivations();
+		debugger;
+		
+	});
+</script>
+
+
+
+</head>
+<body>
+
+	<div id="resultado" class="cyk-table"></div>
+
+</body>
+</html>

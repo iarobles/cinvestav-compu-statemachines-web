@@ -1,0 +1,109 @@
+<html>
+<head>
+
+<title>DFA Y FDA demos</title>
+<meta name="description" content="Finite Deterministic Automata" />
+<meta name="keywords"
+	content="fda, deterministic, automata, finite, demo" />
+
+<link href="resources/img/logo.gif" rel="shortcut icon" />
+
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/jquery/css/start/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/project.css" />
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/google_prettify/themes/sunburst-min.css" />
+
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/google_prettify/prettify.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/dracula/js/raphael-min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graffle.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graph.js"></script>
+
+
+<script type="text/javascript" src="resources/js/basicFunctions.js"></script>
+<script type="text/javascript" src="resources/js/drawingFunctions.js"></script>
+<script type="text/javascript" src="resources/js/initLayout2.js"></script>
+<script type="text/javascript" src="resources/js/fa/dfa.js"></script>
+<script type="text/javascript" src="resources/js/fa/nfa.js"></script>
+
+<script type="text/javascript"
+	src="resources/js/fa/code_templates/dfa_ccode.js"></script>
+<script type="text/javascript" src="resources/js/fa/dfaHelper.js"></script>
+<script type="text/javascript" src="resources/js/fa/nfaHelper.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/combobox.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/multiselect.js"></script>
+
+<script type="text/javascript" src="resources/js/tests/mixedTests.js"></script>
+
+<script type="text/javascripts">
+	var testAlphabet = [ "00", "1" ];
+
+	var epsToken = cinvestav.compu.constants.TOKEN_EPSILON;
+	var emptySetToken = cinvestav.compu.constants.TOKEN_EMPTY_SET;
+
+	//-------------regular expressions as strings
+	var alphabetAsString = cinvestav.compu.utils.arrayToString(testAlphabet, "|");
+	var validTokensExcludeUnion = alphabetAsString + "|\\(|\\)|\\*|" + epsToken + "|" + emptySetToken;
+	var validTokens = validTokensExcludeUnion + "|\\+";
+
+	//(W) where W=all valid tokens
+	/*TODO excluir +*/
+	var word = "(" + alphabetAsString + "|\\()(" + validTokens + ")*"; //a real word doesnt start with +
+	var wordBetweenParentheses = "^\\((" + word + ")\\)$"; /*  (W) */
+	var wordKleeneClosure = "^\\((" + word + ")\\)\\*$"; /*  (W)* */
+
+	var concatenation1 = "^\\((" + word + ")\\)\\((" + word + ")\\)$"; /* (W)(W) */
+	var concatenation2 = "^\\((" + word + ")\\)(" + word + ")$"; /* (W)W */
+	var concatenation3 = "^(" + word + ")\\((" + word + ")\\)$"; /* (W)W */
+
+	/* regular expresions as objects*/
+	var wordBetweenParenthesesRegExp = new RegExp(wordBetweenParentheses, "g");
+	var wordKleeneClosureRegExp = new RegExp(wordKleeneClosure, "g");
+	var concatenation1RegExp = new RegExp(concatenation1);
+	var concatenation2RegExp = new RegExp(concatenation2);
+	var concatenation3RegExp = new RegExp(concatenation3);
+
+
+	console.debug("word regexp:" + word);
+	var matcher = (new RegExp(word, "g")).exec("00");
+	console.debug("W:" + matcher[0] + "    W:" + matcher[1]);
+
+	var matcher = wordBetweenParenthesesRegExp.exec("(001(00+1*)*)");
+	console.debug("(W):" + matcher[0] + "    W:" + matcher[1]);
+
+	matcher = wordKleeneClosureRegExp.exec("(001(00+1*)*)*");
+	console.debug("(W)*:" + matcher[0] + "    W:" + matcher[1]);
+
+	matcher = concatenation1RegExp.exec("(001(00+1*)*)(()011)");//concatenation1 
+	console.debug("(W1)(W2):" + matcher[0] + "    W1:" + matcher[1] + "    W2:" + matcher[4]);
+
+	matcher = concatenation2RegExp.exec("(001(00+1*)*)0011+1");//concatenation2
+	console.debug("(W1)W2:" + matcher[0] + "    W1:" + matcher[1] + "    W2:" + matcher[4]);
+	
+	matcher = concatenation3RegExp.exec("00(11+1)(001(00+1*)*)");//concatenation3
+	console.debug("(W1)W2:" + matcher[0] + "    W1:" + matcher[1] + "    W2:" + matcher[4]);
+	
+</script>
+<script type="text/javascript" src="resources/js/fa/regExp.js"></script>
+
+</head>
+
+<body>
+	<div id="box-container"
+		style="width: 900px; height: 500px; border: 1px solid blue"></div>
+</body>
+</html>

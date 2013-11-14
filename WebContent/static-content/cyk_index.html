@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+
+<title>Algoritmo CYK</title>
+<meta name="description" content="Finite Deterministic Automata" />
+<meta name="keywords"
+	content="fda, deterministic, automata, finite, demo" />
+
+<link href="resources/img/logo.gif" rel="shortcut icon" />
+
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/jquery/css/start/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/project.css" />
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/google_prettify/themes/sunburst-min.css" />
+
+
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/google_prettify/prettify.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/dracula/js/raphael-min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graffle.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graph.js"></script>
+
+
+<script type="text/javascript" src="resources/js/basicFunctions.js"></script>
+<script type="text/javascript" src="resources/js/drawingFunctions.js"></script>
+<script type="text/javascript" src="resources/js/initLayout2.js"></script>
+<script type="text/javascript" src="resources/js/fa/dfa.js"></script>
+<script type="text/javascript" src="resources/js/fa/nfa.js"></script>
+
+<script type="text/javascript" src="resources/js/fa/dfaHelper.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/combobox.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/multiselect.js"></script>
+
+<script type="text/javascript" src="resources/js/cfg/CFG.js"></script>
+
+<script type="text/javascript" src="resources/js/cfg/init_layout_cyk.js"></script>
+</head>
+<body>
+
+	<div id="main-box">
+		<noscript>
+			<h1 class="text-center index-title">Necesita habilitar
+				Javascript para ejecutar el Demo</h1>
+		</noscript>
+		<h1 class="text-center index-title">Algoritmo CYK</h1>
+		<div id="main_content">
+			<form id="cyk_form" action="#" method="post">
+
+				<div>
+
+					<div class="fieldset-box ui-widget-content background-erase">
+
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">Parametros de entrada</span> <span
+								id="params_title_button" class="fieldset-button"></span>
+						</div>
+
+						<div class="fieldset-content">
+
+							<div class="form-row">
+								<div class="form-col-left">
+									<label for="variables">Variables(separar con comas)*:</label>
+								</div>
+								<div class="form-col-right">
+									<input id="variables" name="variables" type="text"
+										value="" />
+								</div>
+								<div class="clear"></div>
+							</div>
+
+
+							<div class="form-row">
+								<div class="form-col-left">
+									<label for="terminals">Terminales(separar con comas)*:</label>
+								</div>
+								<div class="form-col-right">
+									<input id="terminals" name="terminals" type="text" value="" />
+								</div>
+								<div class="clear"></div>
+							</div>
+
+
+
+							<div class="form-row">
+								<div class="form-col-left">
+									<label for="startSymbol">Simbolo inicial*:</label>
+								</div>
+								<div class="form-col-right">
+									<input id="startSymbol" name="startSymbol" type="text"
+										value="" />
+								</div>
+								<div class="clear"></div>
+							</div>
+
+
+							<div id="error_basicparams"
+								class="ui-state-error ui-corner-all form-row text-center invisible form-row">
+								<p></p>
+							</div>
+
+
+							<div id="" class="text-center">
+								<input class="text-center" id="build_cyk_productions"
+									type="submit" value="Construir producciones" />
+							</div>
+						</div>
+						<div class="form-row text-center" style="padding-bottom: 10px">*
+							Los campos marcados con asterisco son obligatorios</div>
+					</div>
+
+
+					<div id="cfg_productions"
+						class="fieldset-box ui-widget-content background-erase invisible">
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">Reglas de producci&oacute;n</span><span
+								class="fieldset-button"></span>
+						</div>
+						<div id="productions_content" class="fieldset-content">
+							<strong>Importante:</strong>Las producciones est&aacute;n en forma
+							normal de Chomsky
+
+							<div class="production-start" style="margin-top:20px"></div>
+
+							<div id="cfg_error_productions"
+								class="ui-state-error ui-corner-all form-row text-center invisible">
+								<p></p>
+							</div>
+						</div>
+					</div>
+
+
+					<div id="cfg_derivations"
+						class="fieldset-box ui-widget-content background-erase invisible">
+						<div class="fieldset-title-box">
+							<span class="fieldset-title">Derivaciones por la Izquierda</span><span
+								class="fieldset-button"></span>
+						</div>
+						<div class="fieldset-content">
+							<div class="form-row">
+
+								<div class="form-col-left">
+									<label for="stringToTest">Cadena a Probar: </label>
+								</div>
+								<div class="form-col-right">
+									<input id="stringToTest" name="stringToTest"
+										class="string-test-input" type="text" value="" />
+								</div>
+								<div class="clear"></div>
+							</div>
+
+							<div class="form-row text-center">
+								<input id="string_test_button" type="submit"
+									value="Obtener derivaciones!" class="text-center" />
+							</div>
+
+							<div class="form-row text-center cyk-table">
+								<h3 class="cyk-derivation-title">Tabla CYK</h3>
+								<div class="cyk-table-content"></div>
+							</div>
+
+
+							<div class="form-row text-center cyk-derivations">
+								<h3 class="cyk-derivation-title">Derivaciones</h3>
+								<div class="cyk-derivations-content"></div>
+
+								<div id="derivations_error"
+									class="ui-state-error ui-corner-all form-row text-center invisible test-string-not-valid">
+									<p></p>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+
+		<div class="form-row footer ui-widget ui-widget-content ui-corner-all">
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-nc-nd/3.0/"> <img
+				alt="Licencia de Creative Commons" style="border-width: 0"
+				src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png"></a><br>
+				Created by <a href="http://50.112.92.25"
+				class="footer-link">Ismael Ariel</a>. Licensed under a <br><a
+					class="footer-link" rel="license"
+					href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative
+						Commons Reconocimiento-NoComercial-SinObraDerivada 3.0 Unported
+						License</a>. 
+		</div>
+	</div>
+
+</body>
+</html>

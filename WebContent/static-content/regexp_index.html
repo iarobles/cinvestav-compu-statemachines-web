@@ -1,0 +1,197 @@
+<html>
+<head>
+
+<title>DFA Y FDA demos</title>
+<meta name="description" content="Finite Deterministic Automata" />
+<meta name="keywords"
+	content="fda, deterministic, automata, finite, demo" />
+
+<link href="resources/img/logo.gif" rel="shortcut icon" />
+
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/jquery/css/start/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/project.css" />
+<link rel="stylesheet" type="text/css"
+	href="resources/libs/google_prettify/themes/sunburst-min.css" />
+
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/google_prettify/prettify.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/dracula/js/raphael-min.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graffle.js"></script>
+<script type="text/javascript"
+	src="resources/libs/dracula/js/dracula_graph.js"></script>
+
+
+<script type="text/javascript" src="resources/js/basicFunctions.js"></script>
+<script type="text/javascript" src="resources/js/drawingFunctions.js"></script>
+<script type="text/javascript" src="resources/js/initLayout2.js"></script>
+<script type="text/javascript" src="resources/js/fa/dfa.js"></script>
+<script type="text/javascript" src="resources/js/fa/nfa.js"></script>
+
+<script type="text/javascript"
+	src="resources/js/fa/code_templates/dfa_ccode.js"></script>
+<script type="text/javascript" src="resources/js/fa/dfaHelper.js"></script>
+<script type="text/javascript" src="resources/js/fa/nfaHelper.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/combobox.js"></script>
+
+<script type="text/javascript"
+	src="resources/libs/jquery/widgets/multiselect.js"></script>
+
+<script type="text/javascript" src="resources/js/fa/regExp.js"></script>
+<script type="text/javascript" src="resources/js/initRegExpLayout.js"></script>
+
+</head>
+
+<body>
+
+	<div id="main-box">
+
+		<noscript>
+			<h1 class="text-center index-title">Necesita habilitar
+				Javascript para ejecutar el Demo</h1>
+		</noscript>
+		<h1 class="text-center index-title">Convertir Expresi&oacute;n
+			Regular a DFA</h1>
+
+		<div id="regexp_basicparams"
+			class="fieldset-box ui-widget-content background-erase">
+
+			<div class="fieldset-title-box">
+				<span class="fieldset-title">Parametros de entrada</span> <span
+					id="params_title_button" class="fieldset-button"></span>
+			</div>
+
+			<div class="fieldset-content">
+
+				<div class="form-row">
+					<div class="form-col-left">
+						<label for="alphabetAsString">Detallar alfabeto <strong>(separar
+							con comas)</strong>*:</label>
+					</div>
+					<div class="form-col-right">
+						<input id="alphabetAsString" name="alphabetAsString" type="text" />
+					</div>
+					<div class="clear"></div>
+				</div>
+
+
+
+				<div class="form-row">
+					<div class="form-col-left">
+						<label for="regularExpresion">Expresi&oacute;n regular*:</label>
+					</div>
+					<div class="form-col-right">
+						<input id="regularExpresion" name="regularExpresion" type="text" />
+					</div>
+					<div class="clear"></div>
+				</div>
+
+				<div class="form-row">
+					<div class="form-col-left">
+						<label for="stringToTest">Cadena a probar <strong>(separar con comas)</strong>:</label>
+					</div>
+					<div class="form-col-right">
+						<input name="stringToTest" type="text" />
+					</div>
+					<div class="clear"></div>
+				</div>
+
+				<div class="form-row text-center">
+					El s&iacute;mbolo <strong>&epsilon;</strong>=<strong><span
+						id="regexp_eps_span"></span></strong>
+					<div class="clear"></div>
+				</div>
+
+
+				<div id="error_basicparams"
+					class="ui-state-error ui-corner-all form-row text-center invisible form-row">
+					<p></p>
+				</div>
+
+
+				<div id="" class="text-center">
+					<input class="text-center" id="build_NFA_from_regexp" type="submit"
+						style="margin-top: 15px" value="Construir Matriz" />
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<div id="enfa_diagram"
+			class="fieldset-box ui-widget-content background-erase">
+
+			<div class="fieldset-title-box">
+				<span class="fieldset-title">&epsilon;-NFA (Diagrama)</span> <span
+					id="params_title_button" class="fieldset-button"></span>
+			</div>
+			<div class="fieldset-content">
+
+				<div class="form-row">
+					<div id="enfa_diagram_content"></div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<div id="enfa_diagram"
+			class="fieldset-box ui-widget-content background-erase invisible">
+
+			<div class="fieldset-title-box">
+				<span class="fieldset-title">&epsilon;-NFA (Diagrama)</span> <span
+					id="params_title_button" class="fieldset-button"></span>
+			</div>
+
+			<div class="fieldset-content">
+
+				<div class="form-row">
+					<div id="enfa_diagram_content"></div>
+					<div class="clear"></div>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="enfa_transition_matrix"
+			class="fieldset-box ui-widget-content background-erase invisible">
+
+			<div class="fieldset-title-box">
+				<span class="fieldset-title">&epsilon;-NFA (Matriz de
+					Transici&oacute;n)</span> <span id="params_title_button"
+					class="fieldset-button"></span>
+			</div>
+
+			<div id="enfa_transition_matrix_content" class="fieldset-content"></div>
+			<div class="clear"></div>
+		</div>
+
+		<div id="nfa_transition_matrix"
+			class="fieldset-box ui-widget-content background-erase invisible">
+
+			<div class="fieldset-title-box">
+				<span class="fieldset-title">NFA (Matriz de Transici&oacute;n
+					sin movimientos &epsilon;)</span> <span id="params_title_button"
+					class="fieldset-button"></span>
+			</div>
+
+			<div id="nfa_transition_matrix_content" class="fieldset-content"></div>
+			<div class="clear"></div>
+		</div>
+
+		<div id="regexp_to_dfa_result"></div>
+
+		<div class="form-row text-center" style="padding-bottom: 10px">*
+			Los campos marcados con asterisco son obligatorios</div>
+	</div>
+</body>
+</html>
